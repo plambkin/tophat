@@ -1,5 +1,5 @@
 <div>
     <div class="px-5">
-        <button class="border-b-4">Countdown</button>
+        <button wire:model.def="countdown" class="border-b-4">{{ $countdown }}</button>
     </div>
 </div>

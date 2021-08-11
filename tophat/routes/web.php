@@ -17,5 +17,8 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/notdefined', [AnswerController::class, 'index'])->name('answer.index');
+
+
 
 require __DIR__.'/auth.php';
