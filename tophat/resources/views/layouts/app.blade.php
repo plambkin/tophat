@@ -5,29 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <title>{{ $title ?? 'Laracasts Voting' }}</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <livewire:styles />
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
-<body class="font-sans text-gray-900">
-<header class="flex items-center justify-between text-sm text-gray-400 px-8 py-4">
-
-    <a href="#"> Logo Here
-    </a>
-
-    <div>
-
+<body class="font-sans bg-gray-background text-gray-900 text-sm">
+<header class="flex flex-col md:flex-row items-center justify-between px-8 py-4">
+    <a href="/"><img src="{{ asset('img/logo.svg') }}" alt="logo"></a>
+    <div class="flex items-center mt-2 md:mt-0">
         @if (Route::has('login'))
             <div class="px-6 py-4">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+                    <div class="flex items-center space-x-4">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <a href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                {{ __('Log out') }}
+                            </a>
+                        </form>
+                    </div>
                 @else
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
@@ -37,37 +49,44 @@
                 @endauth
             </div>
         @endif
-    </div>
-
-    <div class="flex">
-        <a href="#">
-            <img src="https://s.gravatar.com/avatar/b6bedca0eda879de96fa7b9e1cc5cc94?s=80
-" alt="Avatar" class="w-10 h-10 rounded-full">
-        </a>
+        @auth
+            <a href="#">
+                <img src="https://s.gravatar.com/avatar/b6bedca0eda879de96fa7b9e1cc5cc94?s=80" alt="avatar" class="w-10 h-10 rounded-full">
+            </a>
+        @endauth
     </div>
 </header>
-<div class="flex items-center px-10">
-    <div class="px-5">
-        <button class="border-b-4">Countdown</button>
+
+<main class="container mx-auto max-w-custom flex flex-col md:flex-row">
+    <div class="w-70 mx-auto md:mx-0 md:mr-5">
+        <div
+            class="bg-white md:sticky md:top-8 border-2 border-blue rounded-xl mt-16"
+            style="
+                          border-image-source: linear-gradient(to bottom, rgba(50, 138, 241, 0.22), rgba(99, 123, 255, 0));
+                            border-image-slice: 1;
+                            background-image: linear-gradient(to bottom, #ffffff, #ffffff), linear-gradient(to bottom, rgba(50, 138, 241, 0.22), rgba(99, 123, 255, 0));
+                            background-origin: border-box;
+                            background-clip: content-box, border-box;
+                    "
+        >
+            <div class="flex items-center px-10">
+                <livewire:countdown />
+                <livewire:secs-to-delete />
+            </div>
+            <livewire:question-answer />
+        </div>
     </div>
-    <div>
-        <button class="border-b-4">No Activity</button>
+    <div class="w-full px-2 md:px-0 md:w-175">
+
+        <div class="mt-8">
+{{--            {{ $slot }}--}}
+        </div>
     </div>
-</div>
-<div class="flex items-center justify-between px-5 py-10">
-    <textarea name="Text1" cols="100" rows="15">
-        This is a textbox
-    </textarea>
-</div>
-<div class="flex items-center px-10">
-    <div class="px-5 text-gray-400 font-semibold">
-        <button>Start again</button>
-    </div>
-    <div>
-        <button>Submit</button>
-    </div>
-</div>
+</main>
 
 
+
+<livewire:scripts />
 </body>
 </html>
+
